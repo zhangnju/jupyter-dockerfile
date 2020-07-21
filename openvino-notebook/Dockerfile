@@ -37,7 +37,7 @@ RUN sed -Ei 's/# deb-src /deb-src /' /etc/apt/sources.list && \
 # setup Python
 ENV PYTHON python3.7
 RUN apt-get update && \
-    apt-get install -y --no-install-recommends ${PYTHON} python3-pip python3-dev lib${PYTHON} python3-venv libgfortran3 python3-setuptools && \
+    apt-get install -y --no-install-recommends ${PYTHON} python3-pip python3-dev lib${PYTHON} python3-venv libgfortran3 python3-setuptools python-yaml && \
     rm -rf /var/lib/apt/lists/*
 RUN ${PYTHON} -m pip install --no-cache-dir setuptools
 ARG package_url=http://registrationcenter-download.intel.com/akdlm/irc_nas/16803/l_openvino_toolkit_p_2020.4.287.tgz
@@ -62,9 +62,10 @@ RUN ${PYTHON} -m pip install -i https://pypi.tuna.tsinghua.edu.cn/simple --no-ca
     ${PYTHON} -m pip install -i https://pypi.tuna.tsinghua.edu.cn/simple --no-cache-dir protobuf==3.6.1 && \
     ${PYTHON} -m pip install -i https://pypi.tuna.tsinghua.edu.cn/simple --no-cache-dir onnx>=1.1.2 && \
     ${PYTHON} -m pip install -i https://pypi.tuna.tsinghua.edu.cn/simple --no-cache-dir "defusedxml>=0.5.0" && \
+    ${PYTHON} -m pip install -i https://pypi.tuna.tsinghua.edu.cn/simple --no-cache-dir "test-generator==0.1.1" && \
     ${PYTHON} -m pip install -i https://pypi.tuna.tsinghua.edu.cn/simple --no-cache-dir opencv-python==3.4.4.19
 RUN ${PYTHON} -m pip install -i https://pypi.tuna.tsinghua.edu.cn/simple --no-cache-dir -r ${INTEL_OPENVINO_DIR}/deployment_tools/inference_engine/demos/python_demos/requirements.txt
-
+RUN ${PYTHON} -m pip install -i https://pypi.tuna.tsinghua.edu.cn/simple --no-cache-dir -r ${INTEL_OPENVINO_DIR}/deployment_tools/tools/model_downloader/requirements.in
 # Post-installation cleanup and setting up OpenVINO environment variables
 #printf "\n export PYSPARK_PYTHON=/usr/bin/python3.6 \n" >> /home/$NB_USER/.bashrc; 
 RUN if [ -f "${INTEL_OPENVINO_DIR}"/bin/setupvars.sh ]; then \
