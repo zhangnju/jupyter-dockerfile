@@ -1,4 +1,4 @@
-FROM alicek106/notebook-jupyter-centos7
+FROM alicek106/notebook-jupyter-centos7:0.0
 
 LABEL maintainer="Jupyter Project <jupyter@googlegroups.com>"
 ARG NB_USER="jovyan"
